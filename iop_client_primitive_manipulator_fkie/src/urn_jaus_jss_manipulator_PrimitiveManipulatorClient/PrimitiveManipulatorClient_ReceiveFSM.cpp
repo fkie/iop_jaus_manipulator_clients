@@ -99,7 +99,7 @@ void PrimitiveManipulatorClient_ReceiveFSM::specification_received(JausAddress r
 				ROS_INFO_NAMED("PrimitiveManipulatorClient", "create QUERY timer to get manipulator effort from %s", p_remote_addr.str().c_str());
 				p_query_timer = p_nh.createTimer(ros::Duration(1.0 / p_hz), &PrimitiveManipulatorClient_ReceiveFSM::pQueryCallback, this);
 			} else {
-				ROS_WARN_NAMED("PrimitiveManipulatorClient", "invalid hz %f.2f for QUERY timer to get manipulator effort from %s", p_hz, p_remote_addr.str().c_str());
+				ROS_WARN_NAMED("PrimitiveManipulatorClient", "invalid hz %.2f for QUERY timer to get manipulator effort from %s", p_hz, p_remote_addr.str().c_str());
 			}
 		} else {
 			ROS_INFO_NAMED("PrimitiveManipulatorClient", "create EVENT to get manipulator effort from %s", p_remote_addr.str().c_str());

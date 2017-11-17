@@ -96,7 +96,7 @@ void PrimitiveEndEffectorClient_ReceiveFSM::handleReportEndEffectorSpecification
 				ROS_INFO_NAMED("PrimitiveEndEffectorClient", "create QUERY timer to get endeffector effort from %s", p_remote_addr.str().c_str());
 				p_query_timer = p_nh.createTimer(ros::Duration(1.0 / p_hz), &PrimitiveEndEffectorClient_ReceiveFSM::pQueryCallback, this);
 			} else {
-				ROS_WARN_NAMED("PrimitiveEndEffectorClient", "invalid hz %f.2f for QUERY timer to get endeffector effort from %s", p_hz, p_remote_addr.str().c_str());
+				ROS_WARN_NAMED("PrimitiveEndEffectorClient", "invalid hz %.2f for QUERY timer to get endeffector effort from %s", p_hz, p_remote_addr.str().c_str());
 			}
 		} else {
 			ROS_INFO_NAMED("PrimitiveEndEffectorClient", "create EVENT to get endeffector effort from %s", p_remote_addr.str().c_str());
