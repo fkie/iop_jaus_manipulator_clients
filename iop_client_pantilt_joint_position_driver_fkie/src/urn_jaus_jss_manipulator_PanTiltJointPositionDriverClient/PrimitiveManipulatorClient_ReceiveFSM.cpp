@@ -90,9 +90,9 @@ void PrimitiveManipulatorClient_ReceiveFSM::handleReportJointEffortAction(Report
 
 void PrimitiveManipulatorClient_ReceiveFSM::specification_received(JausAddress reporter, ReportManipulatorSpecifications spec)
 {
-	if (p_remote_addr == reporter && p_remote_addr.get() != 0) {
-		p_joint_names.clear();
-		p_joint_names = pManiSpecService->pManipulatorSpecificationServiceClient_ReceiveFSM->get_joint_names(spec);
+	p_joint_names.clear();
+	p_joint_names = pManiSpecService->pManipulatorSpecificationServiceClient_ReceiveFSM->get_joint_names(spec);
+	if (p_remote_addr.get() != 0) {
 		if (p_by_query) {
 			p_query_timer.stop();
 			if (p_hz > 0) {
@@ -133,7 +133,7 @@ void PrimitiveManipulatorClient_ReceiveFSM::access_deactivated(std::string servi
 void PrimitiveManipulatorClient_ReceiveFSM::create_events(std::string service_uri, JausAddress component, bool by_query)
 {
 	p_by_query = by_query;
-	// we have for specification. After it will be received, specification_received() will be called end we start the events
+	// we wait for specification. After it will be received, specification_received() will be called end we start the events
 }
 
 void PrimitiveManipulatorClient_ReceiveFSM::cancel_events(std::string service_uri, JausAddress component, bool by_query)

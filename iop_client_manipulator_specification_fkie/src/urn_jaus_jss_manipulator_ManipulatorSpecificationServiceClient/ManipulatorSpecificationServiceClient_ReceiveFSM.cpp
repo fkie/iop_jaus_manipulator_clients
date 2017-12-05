@@ -3,6 +3,7 @@
 #include "urn_jaus_jss_manipulator_ManipulatorSpecificationServiceClient/ManipulatorSpecificationServiceClient_ReceiveFSM.h"
 #include <iop_ocu_slavelib_fkie/Slave.h>
 #include <iop_component_fkie/iop_config.h>
+#include <algorithm>
 
 
 
@@ -82,7 +83,10 @@ void ManipulatorSpecificationServiceClient_ReceiveFSM::handleReportManipulatorSp
 void ManipulatorSpecificationServiceClient_ReceiveFSM::add_listener(iop::SpecificationListenerInterface *listener)
 {
 	if (listener != NULL) {
-		p_spec_listener.push_back(listener);
+		std::vector<iop::SpecificationListenerInterface*>::iterator res = std::find(p_spec_listener.begin(), p_spec_listener.end(), listener);
+		if (res == p_spec_listener.end()) {
+			p_spec_listener.push_back(listener);
+		}
 	}
 }
 

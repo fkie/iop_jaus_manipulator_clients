@@ -1,0 +1,22 @@
+<library path="libiop_client_pantilt_joint_position_driver_fkie">
+  <class name="PanTiltJointPositionDriverClient" type="iop::PanTiltJointPositionDriverClientPlugin" base_class_type="iop::PluginInterface">
+    <description>
+      PanTiltJointPositionDriver client Service Plugin, e.g. for OCU
+    </description>
+    <iop_service name="PanTiltJointPositionDriverClient" id="urn:jaus:jss:manipulator:PanTiltJointPositionDriverClient" version="2.0">
+      <inherits_from id="urn:jaus:jss:core:ManagementClient" min_version="1.1"/>
+      <depend id="urn:jaus:jss:manipulator:PanTiltMotionProfileServiceClient"/>
+      <depend id="urn:jaus:jss:manipulator:PanTiltSpecificationServiceClient"/>
+    </iop_service>
+  </class>
+  <class name="PanTiltJointPositionSensorClient" type="iop::PanTiltJointPositionSensorClientPlugin" base_class_type="iop::PluginInterface">
+    <description>
+      PanTiltJointPositionSensor client Service Plugin
+    </description>
+    <iop_service name="PanTiltJointPositionSensorClient" id="urn:jaus:jss:manipulator:PanTiltJointPositionSensorClient" version="2.0">
+      <inherits_from id="urn:jaus:jss:core:EventsClient" min_version="1.1"/>
+      <depend id="urn:jaus:jss:manipulator:PanTiltMotionProfileServiceClient"/>
+      <depend id="urn:jaus:jss:manipulator:PanTiltSpecificationServiceClient"/>
+    </iop_service>
+  </class>
+</library>
