@@ -74,6 +74,7 @@ void PrimitivePanTiltClient_ReceiveFSM::setupNotifications()
 	p_sub_cmd_vel_tilt = cfg.subscribe<std_msgs::Float64>("cmd_vel_tilt", 5, &PrimitivePanTiltClient_ReceiveFSM::pTiltFloatCallback, this);
 	p_sub_cmd_vel_pan32 = cfg.subscribe<std_msgs::Float32>("cmd_vel_pan32", 5, &PrimitivePanTiltClient_ReceiveFSM::pPanFloat32Callback, this);
 	p_sub_cmd_vel_tilt32 = cfg.subscribe<std_msgs::Float32>("cmd_vel_tilt32", 5, &PrimitivePanTiltClient_ReceiveFSM::pTiltFloat32Callback, this);
+	p_sub_cmd_twist = cfg.subscribe<geometry_msgs::TwistStamped>("cmd_vel_twist", 5, &PrimitivePanTiltClient_ReceiveFSM::pTwistCallback, this);
 
 	cfg.param("hz", p_hz, p_hz, false, false);
 	p_pub_vel_joints = cfg.advertise<sensor_msgs::JointState>("cmded_vel_joints", 5, false);
@@ -81,6 +82,7 @@ void PrimitivePanTiltClient_ReceiveFSM::setupNotifications()
 	p_pub_vel_tilt = cfg.advertise<std_msgs::Float64>("cmded_vel_tilt", 5, false);
 	p_pub_vel_pan32 = cfg.advertise<std_msgs::Float32>("cmded_vel_pan32", 5, false);
 	p_pub_vel_tilt32 = cfg.advertise<std_msgs::Float32>("cmded_vel_tilt32", 5, false);
+	p_pub_vel_twist = cfg.advertise<geometry_msgs::TwistStamped>("cmded_vel_twist", 5, false);
 
 	Slave &slave = Slave::get_instance(*(jausRouter->getJausAddress()));
 	slave.add_supported_service(*this, "urn:jaus:jss:manipulator:PrimitivePanTilt", 2, 0);
@@ -118,6 +120,11 @@ void PrimitivePanTiltClient_ReceiveFSM::handleReportPanTiltJointEffortAction(Rep
 	std_msgs::Float32 vel_tilt32;
 	vel_tilt32.data = joint2_vel;
 	p_pub_vel_tilt32.publish(vel_tilt32);
+	geometry_msgs::TwistStamped ros_twist;
+	ros_twist.header.stamp = ros::Time::now();
+	ros_twist.twist.angular.y = joint2_vel;
+	ros_twist.twist.angular.z = joint1_vel;
+	p_pub_vel_twist.publish(ros_twist);
 }
 
 void PrimitivePanTiltClient_ReceiveFSM::pantilt_specification_received(JausAddress reporter, urn_jaus_jss_manipulator_PanTiltSpecificationServiceClient::ReportPanTiltSpecifications spec)
@@ -268,6 +275,11 @@ void PrimitivePanTiltClient_ReceiveFSM::pPanFloat32Callback(const std_msgs::Floa
 void PrimitivePanTiltClient_ReceiveFSM::pTiltFloat32Callback(const std_msgs::Float32::ConstPtr& msg)
 {
 	pUpdateCmdVelocity(p_cmd_joint1_vel, msg->data);
+}
+
+void PrimitivePanTiltClient_ReceiveFSM::pTwistCallback(const geometry_msgs::TwistStamped::ConstPtr& msg)
+{
+	pUpdateCmdVelocity(msg->twist.angular.z, msg->twist.angular.y);
 }
 
 };

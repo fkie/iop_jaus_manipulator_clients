@@ -19,6 +19,7 @@
 #include "urn_jaus_jss_core_ManagementClient/ManagementClient_ReceiveFSM.h"
 
 #include <ros/ros.h>
+#include <geometry_msgs/TwistStamped.h>
 #include <sensor_msgs/JointState.h>
 #include <std_msgs/Float32.h>
 #include <std_msgs/Float64.h>
@@ -95,12 +96,14 @@ protected:
 	ros::Subscriber p_sub_cmd_vel_tilt;
 	ros::Subscriber p_sub_cmd_vel_pan32;
 	ros::Subscriber p_sub_cmd_vel_tilt32;
+	ros::Subscriber p_sub_cmd_twist;
 
 	ros::Publisher p_pub_vel_joints;
 	ros::Publisher p_pub_vel_pan;
 	ros::Publisher p_pub_vel_tilt;
 	ros::Publisher p_pub_vel_pan32;
 	ros::Publisher p_pub_vel_tilt32;
+	ros::Publisher p_pub_vel_twist;
 
 	JausAddress p_remote_addr;
 	bool p_has_access;
@@ -115,6 +118,7 @@ protected:
 	void pTiltFloatCallback(const std_msgs::Float64::ConstPtr& msg);
 	void pPanFloat32Callback(const std_msgs::Float32::ConstPtr& msg);
 	void pTiltFloat32Callback(const std_msgs::Float32::ConstPtr& msg);
+	void pTwistCallback(const geometry_msgs::TwistStamped::ConstPtr& msg);
 };
 
 };
