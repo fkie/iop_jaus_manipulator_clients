@@ -5,13 +5,13 @@ project(iop_client_pantilt_specification_service_fkie)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-                iop_ocu_slavelib_fkie
-                moveit_core
-                moveit_ros_planning
-                roscpp
-                sensor_msgs
-                tf
-                )
+             geometry_msgs
+             iop_component_fkie
+             iop_ocu_slavelib_fkie
+             roscpp
+             tf2
+             tf2_ros
+)
 
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS system thread)
@@ -33,11 +33,11 @@ catkin_package(
     INCLUDE_DIRS include/public
     LIBRARIES ${PROJECT_NAME}
     CATKIN_DEPENDS
+        geometry_msgs
+        iop_component_fkie
         iop_ocu_slavelib_fkie
-        moveit_core
-        moveit_ros_planning
-        sensor_msgs
-        tf
+        tf2
+        tf2_ros
     DEPENDS Boost
 )
 
