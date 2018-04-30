@@ -12,7 +12,7 @@
   <buildtool_depend>catkin</buildtool_depend>
   <depend>boost</depend>
   <depend>geometry_msgs</depend>
-  <depend>iop_client_manipulator_specification_fkie</depend>
+  <depend>iop_client_pantilt_specification_service_fkie</depend>
   <depend>iop_component_fkie</depend>
   <depend>iop_ocu_slavelib_fkie</depend>
   <depend>roscpp</depend>

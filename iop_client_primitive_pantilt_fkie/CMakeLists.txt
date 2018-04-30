@@ -6,7 +6,7 @@ project(iop_client_primitive_pantilt_fkie)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
              geometry_msgs
-             iop_client_manipulator_specification_fkie
+             iop_client_pantilt_specification_service_fkie
              iop_component_fkie
              iop_ocu_slavelib_fkie
              roscpp
@@ -32,7 +32,7 @@ catkin_package(
     LIBRARIES ${PROJECT_NAME}
     CATKIN_DEPENDS
         geometry_msgs
-        iop_client_manipulator_specification_fkie
+        iop_client_pantilt_specification_service_fkie
         iop_component_fkie
         iop_ocu_slavelib_fkie
         sensor_msgs
