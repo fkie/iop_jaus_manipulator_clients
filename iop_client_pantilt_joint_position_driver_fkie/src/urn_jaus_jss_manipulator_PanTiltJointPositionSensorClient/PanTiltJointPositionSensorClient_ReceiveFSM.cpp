@@ -7,7 +7,6 @@
 #include "urn_jaus_jss_manipulator_PanTiltSpecificationServiceClient/PanTiltSpecificationServiceClientService.h"
 
 
-
 using namespace JTS;
 using namespace iop::ocu;
 using namespace urn_jaus_jss_manipulator_PanTiltSpecificationServiceClient;
@@ -36,12 +35,18 @@ PanTiltJointPositionSensorClient_ReceiveFSM::PanTiltJointPositionSensorClient_Re
 	p_joint1_name = "";
 	p_joint2_name = "";
 	p_hz = 10.0;
+	p_use_posestamped = false;
+	p_tf_frame_pantilt = "base_link";
+	tfListener = NULL;
 }
 
 
 
 PanTiltJointPositionSensorClient_ReceiveFSM::~PanTiltJointPositionSensorClient_ReceiveFSM()
 {
+	if (tfListener != NULL) {
+		delete tfListener;
+	}
 	delete context;
 }
 
@@ -63,6 +68,12 @@ void PanTiltJointPositionSensorClient_ReceiveFSM::setupNotifications()
 
 	iop::Config cfg("~PanTiltJointPositionSensorClient");
 	cfg.param("hz", p_hz, p_hz, false, false);
+	cfg.param("use_posestamped", p_use_posestamped, p_use_posestamped);
+	if (p_use_posestamped) {
+		tfListener = new tf::TransformListener();
+		cfg.param("tf_frame_pantilt", p_tf_frame_pantilt, p_tf_frame_pantilt);
+		p_sub_pos_stamped = cfg.advertise<geometry_msgs::PoseStamped>("pos_pantilt", 5, false);
+	}
 	p_pub_pos_joints = cfg.advertise<sensor_msgs::JointState>("pos_joints", 5, false);
 	p_pub_pos_pan = cfg.advertise<std_msgs::Float64>("pos_pan", 5, false);
 	p_pub_pos_tilt = cfg.advertise<std_msgs::Float64>("pos_tilt", 5, false);
@@ -103,6 +114,22 @@ void PanTiltJointPositionSensorClient_ReceiveFSM::handleReportPanTiltJointPositi
 	std_msgs::Float32 pos_tilt32;
 	pos_tilt32.data = joint2_position;
 	p_pub_pos_tilt32.publish(pos_tilt32);
+	if (p_use_posestamped) {
+		geometry_msgs::PoseStamped cmd_pos;
+		tf::Quaternion quat = tf::createQuaternionFromRPY(0.0, joint2_position, joint1_position);
+		geometry_msgs::PoseStamped pose;
+		pose.header.frame_id = p_tf_frame_pantilt;
+		pose.header.stamp = ros::Time::now();
+		pose.pose.position.x = 0;
+		pose.pose.position.y = 0;
+		pose.pose.position.z = 0;
+		pose.pose.orientation.x = quat.x();
+		pose.pose.orientation.y = quat.y();
+		pose.pose.orientation.z = quat.z();
+		pose.pose.orientation.w = quat.w();
+
+		p_sub_pos_stamped.publish(cmd_pos);
+	}
 }
 
 void PanTiltJointPositionSensorClient_ReceiveFSM::control_allowed(std::string service_uri, JausAddress component, unsigned char authority)
