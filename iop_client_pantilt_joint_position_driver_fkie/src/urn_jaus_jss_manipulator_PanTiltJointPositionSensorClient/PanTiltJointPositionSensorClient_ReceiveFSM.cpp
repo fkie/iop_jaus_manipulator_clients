@@ -36,17 +36,13 @@ PanTiltJointPositionSensorClient_ReceiveFSM::PanTiltJointPositionSensorClient_Re
 	p_joint2_name = "";
 	p_hz = 10.0;
 	p_use_posestamped = false;
-	p_tf_frame_pantilt = "base_link";
-	tfListener = NULL;
+	p_tf_frame_pantilt = "";
 }
 
 
 
 PanTiltJointPositionSensorClient_ReceiveFSM::~PanTiltJointPositionSensorClient_ReceiveFSM()
 {
-	if (tfListener != NULL) {
-		delete tfListener;
-	}
 	delete context;
 }
 
@@ -70,7 +66,6 @@ void PanTiltJointPositionSensorClient_ReceiveFSM::setupNotifications()
 	cfg.param("hz", p_hz, p_hz, false, false);
 	cfg.param("use_posestamped", p_use_posestamped, p_use_posestamped);
 	if (p_use_posestamped) {
-		tfListener = new tf::TransformListener();
 		cfg.param("tf_frame_pantilt", p_tf_frame_pantilt, p_tf_frame_pantilt);
 		p_sub_pos_stamped = cfg.advertise<geometry_msgs::PoseStamped>("pos_pantilt", 5, false);
 	}
