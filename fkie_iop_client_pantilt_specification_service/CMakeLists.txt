@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0.2)
 project(fkie_iop_client_pantilt_specification_service)
 
 ## Find catkin macros and libraries
