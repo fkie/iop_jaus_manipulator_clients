@@ -31,6 +31,7 @@ catkin_package(
     CATKIN_DEPENDS
         fkie_iop_component
         fkie_iop_ocu_slavelib
+        roscpp
         sensor_msgs
         std_msgs
     DEPENDS Boost

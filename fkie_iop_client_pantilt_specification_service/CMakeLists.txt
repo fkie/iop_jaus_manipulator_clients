@@ -5,9 +5,9 @@ project(fkie_iop_client_pantilt_specification_service)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-             geometry_msgs
              fkie_iop_component
              fkie_iop_ocu_slavelib
+             geometry_msgs
              roscpp
              tf2
              tf2_ros
@@ -33,9 +33,10 @@ catkin_package(
     INCLUDE_DIRS include/public
     LIBRARIES ${PROJECT_NAME}
     CATKIN_DEPENDS
-        geometry_msgs
         fkie_iop_component
         fkie_iop_ocu_slavelib
+        geometry_msgs
+        roscpp
         tf2
         tf2_ros
     DEPENDS Boost
